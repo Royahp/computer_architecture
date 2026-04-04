@@ -55,7 +55,7 @@ int main(){
 		BUTTON_init();
 	
 	//LED
-		//LED_init();
+		LED_init();
 		//LED_On(0);
 	  //LED_Off(0);
 		//LED_Out(255);

@@ -17,8 +17,8 @@ void BUTTON_init(void) {
   LPC_GPIO2->FIODIR      &= ~(1 << 12);    /* PORT2.12 defined as input          */
 
   LPC_SC->EXTMODE = 0x7;
-	LPC_SC->EXTPOLAR &= ~(0x7);//added
-	LPC_SC->EXTINT = 0x7;   //added
+//	LPC_SC->EXTPOLAR &= ~(0x7);//added
+//	LPC_SC->EXTINT = 0x7;   //added
 	
 
   NVIC_EnableIRQ(EINT2_IRQn);              /* enable irq in nvic                 */

@@ -4,6 +4,8 @@
 extern uint32_t tick;
 volatile uint32_t bin = 0;
 volatile uint32_t cnt = 0;
+uint8_t lsb;
+extern uint32_t squer(int x,int k);
 //key0
 //uint32_t last_tick0 = 0;
 //int state0 = 1;
@@ -29,7 +31,9 @@ void EINT0_IRQHandler (void)
 //	last_tick0 = tick;
 //	state0=1;
 ////  write code from here with or without debouncing
-	
+	int result=squer(bin,cnt);
+	lsb= result &0xFF;
+	LED_Out(lsb);
 	LPC_SC->EXTINT &= (1 << 0);     /* clear pending interrupt         */
 }
 
@@ -51,7 +55,7 @@ void EINT1_IRQHandler (void)
 ////  write code from here with or without debouncing
 	bin =bin << 1;
 	cnt+=1;
-	bin++;
+	
 	LPC_SC->EXTINT &= (1 << 1);     /* clear pending interrupt         */
 }
 
