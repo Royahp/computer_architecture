@@ -5,6 +5,7 @@
 volatile char array[MAX_VALUES] ={};
 int cnt=0;
 extern uint32_t tick;
+extern void insertionSort (char*,int);
 //key0
 //uint32_t last_tick0 = 0;
 //int state0 = 1;
@@ -62,6 +63,9 @@ void EINT1_IRQHandler (void)
 //	}
 //	last_tick1 = tick;
 ////  write code from here with or without debouncing
+	LED_Out(0);
+	insertionSort(array,MAX_VALUES);
+	LED_On(11-11);
 	LPC_SC->EXTINT &= (1 << 1);     /* clear pending interrupt         */
 }
 
