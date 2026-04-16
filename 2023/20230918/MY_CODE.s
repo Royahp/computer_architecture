@@ -8,9 +8,9 @@ TMP		   RN  5
 NUM		   RN  6
 BB		   RN  7
 TEN		   RN  8
-RESULT     RN  9
+;RESULT     RN  9
 Q		   RN  10
-INDEX		   RN  11
+INDEX	   RN  11
 		   
 		   
 		   
@@ -47,16 +47,16 @@ digitaddition       PROC
 	                EXPORT digitaddition
 			        PUSH{R4-R8,R10-R11,LR}
 					LDR INDEX,=0
-					MOV RESULT,A
-					STRB RESULT,[SERI,INDEX]
+					MOV SUM,A
+					STRB SUM,[SERI,INDEX]
 					ADD INDEX,#1
 					
 					B digitSum
-FOR1				MOV RESULT,BB
+FOR1				MOV SUM,BB
 					
-					STRB RESULT,[SERI,INDEX]
+					STRB SUM,[SERI,INDEX]
 			        
-					MOV NUM,RESULT
+					MOV NUM,SUM
 					ADD INDEX,#1
 					CMP INDEX,N
 					BNE FOR

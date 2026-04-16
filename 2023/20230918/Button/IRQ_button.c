@@ -1,6 +1,9 @@
 #include "../Main.h"
 #include "LPC17xx.h"
 #define debounce_time 50
+int k=0;
+int arr[10]={};
+extern int digitaddition (char * seri,int n);
 extern uint32_t tick;
 //key0
 //uint32_t last_tick0 = 0;
@@ -27,6 +30,9 @@ void EINT0_IRQHandler (void)
 //	last_tick0 = tick;
 //	state0=1;
 ////  write code from here with or without debouncing
+	arr[0]=k;
+	int result=digitaddition (arr,10);
+	
 	
 	LPC_SC->EXTINT &= (1 << 0);     /* clear pending interrupt         */
 }
@@ -47,6 +53,7 @@ void EINT1_IRQHandler (void)
 //	}
 //	last_tick1 = tick;
 ////  write code from here with or without debouncing
+	k=k<<1;
 	LPC_SC->EXTINT &= (1 << 1);     /* clear pending interrupt         */
 }
 
@@ -65,6 +72,7 @@ void EINT2_IRQHandler (void)
 //	}
 //	last_tick2 = tick;
 ////  write code from here with or without debouncing
+	k=k<<1|1;
   LPC_SC->EXTINT &= (1 << 2);     /* clear pending interrupt         */    
 }
 

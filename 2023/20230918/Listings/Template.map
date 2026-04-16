@@ -4,6 +4,8 @@ Component: Arm Compiler for Embedded 6.22 Tool: armlink [5ee90200]
 
 Section Cross References
 
+    main.o(.text.main) refers to system_lpc17xx.o(.text.SystemInit) for SystemInit
+    main.o(.text.main) refers to lib_button.o(.text.BUTTON_init) for BUTTON_init
     main.o(.ARM.exidx.text.main) refers to main.o(.text.main) for [Anonymous Symbol]
     irq_timer.o(.ARM.exidx.text.TIMER0_IRQHandler) refers to irq_timer.o(.text.TIMER0_IRQHandler) for [Anonymous Symbol]
     irq_timer.o(.ARM.exidx.text.TIMER1_IRQHandler) refers to irq_timer.o(.text.TIMER1_IRQHandler) for [Anonymous Symbol]
@@ -19,8 +21,13 @@ Section Cross References
     lib_timer.o(.ARM.exidx.text.__NVIC_EnableIRQ) refers to lib_timer.o(.text.__NVIC_EnableIRQ) for [Anonymous Symbol]
     lib_timer.o(.text.delay_ms) refers to lib_timer.o(.bss.tick) for tick
     lib_timer.o(.ARM.exidx.text.delay_ms) refers to lib_timer.o(.text.delay_ms) for [Anonymous Symbol]
+    irq_button.o(.text.EINT0_IRQHandler) refers to irq_button.o(.bss.k) for k
+    irq_button.o(.text.EINT0_IRQHandler) refers to irq_button.o(.bss.arr) for arr
+    irq_button.o(.text.EINT0_IRQHandler) refers to my_code.o(MYCODE) for digitaddition
     irq_button.o(.ARM.exidx.text.EINT0_IRQHandler) refers to irq_button.o(.text.EINT0_IRQHandler) for [Anonymous Symbol]
+    irq_button.o(.text.EINT1_IRQHandler) refers to irq_button.o(.bss.k) for k
     irq_button.o(.ARM.exidx.text.EINT1_IRQHandler) refers to irq_button.o(.text.EINT1_IRQHandler) for [Anonymous Symbol]
+    irq_button.o(.text.EINT2_IRQHandler) refers to irq_button.o(.bss.k) for k
     irq_button.o(.ARM.exidx.text.EINT2_IRQHandler) refers to irq_button.o(.text.EINT2_IRQHandler) for [Anonymous Symbol]
     lib_button.o(.text.BUTTON_init) refers to lib_button.o(.text.__NVIC_EnableIRQ) for __NVIC_EnableIRQ
     lib_button.o(.ARM.exidx.text.BUTTON_init) refers to lib_button.o(.text.BUTTON_init) for [Anonymous Symbol]
@@ -361,9 +368,7 @@ Removing Unused input sections from the image.
     Removing irq_button.o(.ARM.exidx.text.EINT1_IRQHandler), (8 bytes).
     Removing irq_button.o(.ARM.exidx.text.EINT2_IRQHandler), (8 bytes).
     Removing lib_button.o(.text), (0 bytes).
-    Removing lib_button.o(.text.BUTTON_init), (98 bytes).
     Removing lib_button.o(.ARM.exidx.text.BUTTON_init), (8 bytes).
-    Removing lib_button.o(.text.__NVIC_EnableIRQ), (48 bytes).
     Removing lib_button.o(.ARM.exidx.text.__NVIC_EnableIRQ), (8 bytes).
     Removing funct_led.o(.text), (0 bytes).
     Removing funct_led.o(.text.LED_On), (48 bytes).
@@ -485,11 +490,10 @@ Removing Unused input sections from the image.
     Removing system_lpc17xx.o(.text), (0 bytes).
     Removing system_lpc17xx.o(.text.SystemCoreClockUpdate), (428 bytes).
     Removing system_lpc17xx.o(.ARM.exidx.text.SystemCoreClockUpdate), (8 bytes).
-    Removing system_lpc17xx.o(.text.SystemInit), (388 bytes).
     Removing system_lpc17xx.o(.ARM.exidx.text.SystemInit), (8 bytes).
     Removing system_lpc17xx.o(.data.SystemCoreClock), (4 bytes).
 
-155 unused section(s) (total 243461 bytes) removed from the image.
+152 unused section(s) (total 242927 bytes) removed from the image.
 
 ==============================================================================
 
@@ -651,25 +655,29 @@ Image Symbol Table
     .text                                    0x00000260   Section        2  use_no_semi.o(.text)
     .text                                    0x00000262   Section        0  indicate_semi.o(.text)
     [Anonymous Symbol]                       0x00000264   Section        0  irq_adc.o(.text.ADC_IRQHandler)
-    [Anonymous Symbol]                       0x00000280   Section        0  irq_button.o(.text.EINT0_IRQHandler)
-    [Anonymous Symbol]                       0x00000294   Section        0  irq_button.o(.text.EINT1_IRQHandler)
-    [Anonymous Symbol]                       0x000002a8   Section        0  irq_button.o(.text.EINT2_IRQHandler)
-    [Anonymous Symbol]                       0x000002bc   Section        0  irq_timer.o(.text.TIMER0_IRQHandler)
-    [Anonymous Symbol]                       0x000002cc   Section        0  irq_timer.o(.text.TIMER1_IRQHandler)
-    [Anonymous Symbol]                       0x000002dc   Section        0  irq_timer.o(.text.TIMER2_IRQHandler)
-    [Anonymous Symbol]                       0x000002e8   Section        0  main.o(.text.main)
+    [Anonymous Symbol]                       0x00000280   Section        0  lib_button.o(.text.BUTTON_init)
+    [Anonymous Symbol]                       0x000002e4   Section        0  irq_timer.o(.text.TIMER0_IRQHandler)
     .ARM.__at_0x02FC                         0x000002fc   Section        4  startup_lpc17xx.o(.ARM.__at_0x02FC)
-    [Anonymous Symbol]                       0x00000300   Section        0  irq_rit.o(.text.RIT_IRQHandler)
-    [Anonymous Symbol]                       0x00000374   Section        0  irq_timer.o(.text.TIMER3_IRQHandler)
-    MYCODE                                   0x00000390   Section      134  my_code.o(MYCODE)
+    [Anonymous Symbol]                       0x00000300   Section        0  irq_button.o(.text.EINT0_IRQHandler)
+    [Anonymous Symbol]                       0x00000334   Section        0  irq_button.o(.text.EINT1_IRQHandler)
+    [Anonymous Symbol]                       0x00000354   Section        0  irq_button.o(.text.EINT2_IRQHandler)
+    [Anonymous Symbol]                       0x00000378   Section        0  irq_rit.o(.text.RIT_IRQHandler)
+    [Anonymous Symbol]                       0x000003ec   Section        0  system_lpc17xx.o(.text.SystemInit)
+    [Anonymous Symbol]                       0x00000570   Section        0  irq_timer.o(.text.TIMER1_IRQHandler)
+    [Anonymous Symbol]                       0x00000580   Section        0  irq_timer.o(.text.TIMER2_IRQHandler)
+    [Anonymous Symbol]                       0x0000058c   Section        0  irq_timer.o(.text.TIMER3_IRQHandler)
+    __NVIC_EnableIRQ                         0x000005a9   Thumb Code    48  lib_button.o(.text.__NVIC_EnableIRQ)
+    [Anonymous Symbol]                       0x000005a8   Section        0  lib_button.o(.text.__NVIC_EnableIRQ)
+    [Anonymous Symbol]                       0x000005d8   Section        0  main.o(.text.main)
+    MYCODE                                   0x000005ec   Section      134  my_code.o(MYCODE)
     MYSPACE                                  0x10000000   Data           5  startup_lpc17xx.o(MYCODE)
     MYCODE                                   0x10000000   Section        5  startup_lpc17xx.o(MYCODE)
     .bss                                     0x10000008   Section       96  libspace.o(.bss)
-    Heap_Mem                                 0x10000070   Data           0  startup_lpc17xx.o(HEAP)
-    Stack_Mem                                0x10000070   Data        1024  startup_lpc17xx.o(STACK)
-    HEAP                                     0x10000070   Section        0  startup_lpc17xx.o(HEAP)
-    STACK                                    0x10000070   Section     1024  startup_lpc17xx.o(STACK)
-    __initial_sp                             0x10000470   Data           0  startup_lpc17xx.o(STACK)
+    Heap_Mem                                 0x100000a0   Data           0  startup_lpc17xx.o(HEAP)
+    Stack_Mem                                0x100000a0   Data        1024  startup_lpc17xx.o(STACK)
+    HEAP                                     0x100000a0   Section        0  startup_lpc17xx.o(HEAP)
+    STACK                                    0x100000a0   Section     1024  startup_lpc17xx.o(STACK)
+    __initial_sp                             0x100004a0   Data           0  startup_lpc17xx.o(STACK)
 
     Global Symbols
 
@@ -807,23 +815,27 @@ Image Symbol Table
     __use_no_semihosting_swi                 0x00000261   Thumb Code     2  use_no_semi.o(.text)
     __semihosting_library_function           0x00000263   Thumb Code     0  indicate_semi.o(.text)
     ADC_IRQHandler                           0x00000265   Thumb Code    26  irq_adc.o(.text.ADC_IRQHandler)
-    EINT0_IRQHandler                         0x00000281   Thumb Code    18  irq_button.o(.text.EINT0_IRQHandler)
-    EINT1_IRQHandler                         0x00000295   Thumb Code    18  irq_button.o(.text.EINT1_IRQHandler)
-    EINT2_IRQHandler                         0x000002a9   Thumb Code    18  irq_button.o(.text.EINT2_IRQHandler)
-    TIMER0_IRQHandler                        0x000002bd   Thumb Code    14  irq_timer.o(.text.TIMER0_IRQHandler)
-    TIMER1_IRQHandler                        0x000002cd   Thumb Code    14  irq_timer.o(.text.TIMER1_IRQHandler)
-    TIMER2_IRQHandler                        0x000002dd   Thumb Code    12  irq_timer.o(.text.TIMER2_IRQHandler)
-    main                                     0x000002e9   Thumb Code    10  main.o(.text.main)
-    RIT_IRQHandler                           0x00000301   Thumb Code   116  irq_rit.o(.text.RIT_IRQHandler)
-    TIMER3_IRQHandler                        0x00000375   Thumb Code    28  irq_timer.o(.text.TIMER3_IRQHandler)
-    digitSum                                 0x00000391   Thumb Code    48  my_code.o(MYCODE)
-    digitaddition                            0x000003c1   Thumb Code    86  my_code.o(MYCODE)
-    Region$$Table$$Base                      0x00000418   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x00000438   Number         0  anon$$obj.o(Region$$Table)
+    BUTTON_init                              0x00000281   Thumb Code    98  lib_button.o(.text.BUTTON_init)
+    TIMER0_IRQHandler                        0x000002e5   Thumb Code    14  irq_timer.o(.text.TIMER0_IRQHandler)
+    EINT0_IRQHandler                         0x00000301   Thumb Code    52  irq_button.o(.text.EINT0_IRQHandler)
+    EINT1_IRQHandler                         0x00000335   Thumb Code    32  irq_button.o(.text.EINT1_IRQHandler)
+    EINT2_IRQHandler                         0x00000355   Thumb Code    34  irq_button.o(.text.EINT2_IRQHandler)
+    RIT_IRQHandler                           0x00000379   Thumb Code   116  irq_rit.o(.text.RIT_IRQHandler)
+    SystemInit                               0x000003ed   Thumb Code   388  system_lpc17xx.o(.text.SystemInit)
+    TIMER1_IRQHandler                        0x00000571   Thumb Code    14  irq_timer.o(.text.TIMER1_IRQHandler)
+    TIMER2_IRQHandler                        0x00000581   Thumb Code    12  irq_timer.o(.text.TIMER2_IRQHandler)
+    TIMER3_IRQHandler                        0x0000058d   Thumb Code    28  irq_timer.o(.text.TIMER3_IRQHandler)
+    main                                     0x000005d9   Thumb Code    20  main.o(.text.main)
+    digitSum                                 0x000005ed   Thumb Code    48  my_code.o(MYCODE)
+    digitaddition                            0x0000061d   Thumb Code    86  my_code.o(MYCODE)
+    Region$$Table$$Base                      0x00000674   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x00000694   Number         0  anon$$obj.o(Region$$Table)
     __libspace_start                         0x10000008   Data          96  libspace.o(.bss)
     AD_current                               0x10000068   Data           2  irq_adc.o(.bss.AD_current)
     __temporary_stack_top$libspace           0x10000068   Data           0  libspace.o(.bss)
-    tick                                     0x1000006c   Data           4  lib_timer.o(.bss.tick)
+    arr                                      0x1000006c   Data          40  irq_button.o(.bss.arr)
+    k                                        0x10000094   Data           4  irq_button.o(.bss.k)
+    tick                                     0x10000098   Data           4  lib_timer.o(.bss.tick)
 
 
 
@@ -833,113 +845,117 @@ Memory Map of the image
 
   Image Entry point : 0x00000195
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00000440, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x0000069c, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000438, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00000694, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x00000000   0x00000000   0x000000cc   Data   RO          266    RESET               startup_lpc17xx.o
-    0x000000cc   0x000000cc   0x00000008   Code   RO          297  * !!!main             c_w.l(__main.o)
-    0x000000d4   0x000000d4   0x0000005c   Code   RO          511    !!!scatter          c_w.l(__scatter.o)
-    0x00000130   0x00000130   0x0000001a   Code   RO          515    !!handler_copy      c_w.l(__scatter_copy.o)
+    0x00000000   0x00000000   0x000000cc   Data   RO          268    RESET               startup_lpc17xx.o
+    0x000000cc   0x000000cc   0x00000008   Code   RO          299  * !!!main             c_w.l(__main.o)
+    0x000000d4   0x000000d4   0x0000005c   Code   RO          513    !!!scatter          c_w.l(__scatter.o)
+    0x00000130   0x00000130   0x0000001a   Code   RO          517    !!handler_copy      c_w.l(__scatter_copy.o)
     0x0000014a   0x0000014a   0x00000002   PAD
-    0x0000014c   0x0000014c   0x00000002   Code   RO          512    !!handler_null      c_w.l(__scatter.o)
+    0x0000014c   0x0000014c   0x00000002   Code   RO          514    !!handler_null      c_w.l(__scatter.o)
     0x0000014e   0x0000014e   0x00000002   PAD
-    0x00000150   0x00000150   0x0000001c   Code   RO          517    !!handler_zi        c_w.l(__scatter_zi.o)
-    0x0000016c   0x0000016c   0x00000002   Code   RO          373    .ARM.Collect$$libinit$$00000000  c_w.l(libinit.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          386    .ARM.Collect$$libinit$$00000002  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          388    .ARM.Collect$$libinit$$00000004  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          390    .ARM.Collect$$libinit$$00000006  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          393    .ARM.Collect$$libinit$$0000000C  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          395    .ARM.Collect$$libinit$$0000000E  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          397    .ARM.Collect$$libinit$$00000010  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          400    .ARM.Collect$$libinit$$00000013  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          402    .ARM.Collect$$libinit$$00000015  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          404    .ARM.Collect$$libinit$$00000017  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          406    .ARM.Collect$$libinit$$00000019  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          408    .ARM.Collect$$libinit$$0000001B  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          410    .ARM.Collect$$libinit$$0000001D  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          412    .ARM.Collect$$libinit$$0000001F  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          414    .ARM.Collect$$libinit$$00000021  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          416    .ARM.Collect$$libinit$$00000023  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          418    .ARM.Collect$$libinit$$00000025  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          420    .ARM.Collect$$libinit$$00000027  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          424    .ARM.Collect$$libinit$$0000002E  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          426    .ARM.Collect$$libinit$$00000030  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          428    .ARM.Collect$$libinit$$00000032  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000000   Code   RO          430    .ARM.Collect$$libinit$$00000034  c_w.l(libinit2.o)
-    0x0000016e   0x0000016e   0x00000002   Code   RO          431    .ARM.Collect$$libinit$$00000035  c_w.l(libinit2.o)
-    0x00000170   0x00000170   0x00000002   Code   RO          466    .ARM.Collect$$libshutdown$$00000000  c_w.l(libshutdown.o)
-    0x00000172   0x00000172   0x00000000   Code   RO          494    .ARM.Collect$$libshutdown$$00000002  c_w.l(libshutdown2.o)
-    0x00000172   0x00000172   0x00000000   Code   RO          496    .ARM.Collect$$libshutdown$$00000004  c_w.l(libshutdown2.o)
-    0x00000172   0x00000172   0x00000000   Code   RO          499    .ARM.Collect$$libshutdown$$00000007  c_w.l(libshutdown2.o)
-    0x00000172   0x00000172   0x00000000   Code   RO          502    .ARM.Collect$$libshutdown$$0000000A  c_w.l(libshutdown2.o)
-    0x00000172   0x00000172   0x00000000   Code   RO          504    .ARM.Collect$$libshutdown$$0000000C  c_w.l(libshutdown2.o)
-    0x00000172   0x00000172   0x00000000   Code   RO          507    .ARM.Collect$$libshutdown$$0000000F  c_w.l(libshutdown2.o)
-    0x00000172   0x00000172   0x00000002   Code   RO          508    .ARM.Collect$$libshutdown$$00000010  c_w.l(libshutdown2.o)
-    0x00000174   0x00000174   0x00000000   Code   RO          323    .ARM.Collect$$rtentry$$00000000  c_w.l(__rtentry.o)
-    0x00000174   0x00000174   0x00000000   Code   RO          342    .ARM.Collect$$rtentry$$00000002  c_w.l(__rtentry2.o)
-    0x00000174   0x00000174   0x00000006   Code   RO          354    .ARM.Collect$$rtentry$$00000004  c_w.l(__rtentry4.o)
-    0x0000017a   0x0000017a   0x00000000   Code   RO          344    .ARM.Collect$$rtentry$$00000009  c_w.l(__rtentry2.o)
-    0x0000017a   0x0000017a   0x00000004   Code   RO          345    .ARM.Collect$$rtentry$$0000000A  c_w.l(__rtentry2.o)
-    0x0000017e   0x0000017e   0x00000000   Code   RO          347    .ARM.Collect$$rtentry$$0000000C  c_w.l(__rtentry2.o)
-    0x0000017e   0x0000017e   0x00000008   Code   RO          348    .ARM.Collect$$rtentry$$0000000D  c_w.l(__rtentry2.o)
-    0x00000186   0x00000186   0x00000002   Code   RO          377    .ARM.Collect$$rtexit$$00000000  c_w.l(rtexit.o)
-    0x00000188   0x00000188   0x00000000   Code   RO          437    .ARM.Collect$$rtexit$$00000002  c_w.l(rtexit2.o)
-    0x00000188   0x00000188   0x00000004   Code   RO          438    .ARM.Collect$$rtexit$$00000003  c_w.l(rtexit2.o)
-    0x0000018c   0x0000018c   0x00000006   Code   RO          439    .ARM.Collect$$rtexit$$00000004  c_w.l(rtexit2.o)
+    0x00000150   0x00000150   0x0000001c   Code   RO          519    !!handler_zi        c_w.l(__scatter_zi.o)
+    0x0000016c   0x0000016c   0x00000002   Code   RO          375    .ARM.Collect$$libinit$$00000000  c_w.l(libinit.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          388    .ARM.Collect$$libinit$$00000002  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          390    .ARM.Collect$$libinit$$00000004  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          392    .ARM.Collect$$libinit$$00000006  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          395    .ARM.Collect$$libinit$$0000000C  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          397    .ARM.Collect$$libinit$$0000000E  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          399    .ARM.Collect$$libinit$$00000010  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          402    .ARM.Collect$$libinit$$00000013  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          404    .ARM.Collect$$libinit$$00000015  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          406    .ARM.Collect$$libinit$$00000017  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          408    .ARM.Collect$$libinit$$00000019  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          410    .ARM.Collect$$libinit$$0000001B  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          412    .ARM.Collect$$libinit$$0000001D  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          414    .ARM.Collect$$libinit$$0000001F  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          416    .ARM.Collect$$libinit$$00000021  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          418    .ARM.Collect$$libinit$$00000023  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          420    .ARM.Collect$$libinit$$00000025  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          422    .ARM.Collect$$libinit$$00000027  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          426    .ARM.Collect$$libinit$$0000002E  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          428    .ARM.Collect$$libinit$$00000030  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          430    .ARM.Collect$$libinit$$00000032  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000000   Code   RO          432    .ARM.Collect$$libinit$$00000034  c_w.l(libinit2.o)
+    0x0000016e   0x0000016e   0x00000002   Code   RO          433    .ARM.Collect$$libinit$$00000035  c_w.l(libinit2.o)
+    0x00000170   0x00000170   0x00000002   Code   RO          468    .ARM.Collect$$libshutdown$$00000000  c_w.l(libshutdown.o)
+    0x00000172   0x00000172   0x00000000   Code   RO          496    .ARM.Collect$$libshutdown$$00000002  c_w.l(libshutdown2.o)
+    0x00000172   0x00000172   0x00000000   Code   RO          498    .ARM.Collect$$libshutdown$$00000004  c_w.l(libshutdown2.o)
+    0x00000172   0x00000172   0x00000000   Code   RO          501    .ARM.Collect$$libshutdown$$00000007  c_w.l(libshutdown2.o)
+    0x00000172   0x00000172   0x00000000   Code   RO          504    .ARM.Collect$$libshutdown$$0000000A  c_w.l(libshutdown2.o)
+    0x00000172   0x00000172   0x00000000   Code   RO          506    .ARM.Collect$$libshutdown$$0000000C  c_w.l(libshutdown2.o)
+    0x00000172   0x00000172   0x00000000   Code   RO          509    .ARM.Collect$$libshutdown$$0000000F  c_w.l(libshutdown2.o)
+    0x00000172   0x00000172   0x00000002   Code   RO          510    .ARM.Collect$$libshutdown$$00000010  c_w.l(libshutdown2.o)
+    0x00000174   0x00000174   0x00000000   Code   RO          325    .ARM.Collect$$rtentry$$00000000  c_w.l(__rtentry.o)
+    0x00000174   0x00000174   0x00000000   Code   RO          344    .ARM.Collect$$rtentry$$00000002  c_w.l(__rtentry2.o)
+    0x00000174   0x00000174   0x00000006   Code   RO          356    .ARM.Collect$$rtentry$$00000004  c_w.l(__rtentry4.o)
+    0x0000017a   0x0000017a   0x00000000   Code   RO          346    .ARM.Collect$$rtentry$$00000009  c_w.l(__rtentry2.o)
+    0x0000017a   0x0000017a   0x00000004   Code   RO          347    .ARM.Collect$$rtentry$$0000000A  c_w.l(__rtentry2.o)
+    0x0000017e   0x0000017e   0x00000000   Code   RO          349    .ARM.Collect$$rtentry$$0000000C  c_w.l(__rtentry2.o)
+    0x0000017e   0x0000017e   0x00000008   Code   RO          350    .ARM.Collect$$rtentry$$0000000D  c_w.l(__rtentry2.o)
+    0x00000186   0x00000186   0x00000002   Code   RO          379    .ARM.Collect$$rtexit$$00000000  c_w.l(rtexit.o)
+    0x00000188   0x00000188   0x00000000   Code   RO          439    .ARM.Collect$$rtexit$$00000002  c_w.l(rtexit2.o)
+    0x00000188   0x00000188   0x00000004   Code   RO          440    .ARM.Collect$$rtexit$$00000003  c_w.l(rtexit2.o)
+    0x0000018c   0x0000018c   0x00000006   Code   RO          441    .ARM.Collect$$rtexit$$00000004  c_w.l(rtexit2.o)
     0x00000192   0x00000192   0x00000002   PAD
-    0x00000194   0x00000194   0x00000054   Code   RO          269  * .text               startup_lpc17xx.o
-    0x000001e8   0x000001e8   0x00000006   Code   RO          295    .text               c_w.l(heapauxi.o)
-    0x000001ee   0x000001ee   0x0000004a   Code   RO          360    .text               c_w.l(sys_stackheap_outer.o)
-    0x00000238   0x00000238   0x00000012   Code   RO          362    .text               c_w.l(exit.o)
+    0x00000194   0x00000194   0x00000054   Code   RO          271  * .text               startup_lpc17xx.o
+    0x000001e8   0x000001e8   0x00000006   Code   RO          297    .text               c_w.l(heapauxi.o)
+    0x000001ee   0x000001ee   0x0000004a   Code   RO          362    .text               c_w.l(sys_stackheap_outer.o)
+    0x00000238   0x00000238   0x00000012   Code   RO          364    .text               c_w.l(exit.o)
     0x0000024a   0x0000024a   0x00000002   PAD
-    0x0000024c   0x0000024c   0x00000008   Code   RO          374    .text               c_w.l(libspace.o)
-    0x00000254   0x00000254   0x0000000c   Code   RO          432    .text               c_w.l(sys_exit.o)
-    0x00000260   0x00000260   0x00000002   Code   RO          455    .text               c_w.l(use_no_semi.o)
-    0x00000262   0x00000262   0x00000000   Code   RO          457    .text               c_w.l(indicate_semi.o)
+    0x0000024c   0x0000024c   0x00000008   Code   RO          376    .text               c_w.l(libspace.o)
+    0x00000254   0x00000254   0x0000000c   Code   RO          434    .text               c_w.l(sys_exit.o)
+    0x00000260   0x00000260   0x00000002   Code   RO          457    .text               c_w.l(use_no_semi.o)
+    0x00000262   0x00000262   0x00000000   Code   RO          459    .text               c_w.l(indicate_semi.o)
     0x00000262   0x00000262   0x00000002   PAD
-    0x00000264   0x00000264   0x0000001a   Code   RO          131    .text.ADC_IRQHandler  irq_adc.o
+    0x00000264   0x00000264   0x0000001a   Code   RO          133    .text.ADC_IRQHandler  irq_adc.o
     0x0000027e   0x0000027e   0x00000002   PAD
-    0x00000280   0x00000280   0x00000012   Code   RO           48    .text.EINT0_IRQHandler  irq_button.o
-    0x00000292   0x00000292   0x00000002   PAD
-    0x00000294   0x00000294   0x00000012   Code   RO           50    .text.EINT1_IRQHandler  irq_button.o
-    0x000002a6   0x000002a6   0x00000002   PAD
-    0x000002a8   0x000002a8   0x00000012   Code   RO           52    .text.EINT2_IRQHandler  irq_button.o
-    0x000002ba   0x000002ba   0x00000002   PAD
-    0x000002bc   0x000002bc   0x0000000e   Code   RO           11    .text.TIMER0_IRQHandler  irq_timer.o
-    0x000002ca   0x000002ca   0x00000002   PAD
-    0x000002cc   0x000002cc   0x0000000e   Code   RO           13    .text.TIMER1_IRQHandler  irq_timer.o
-    0x000002da   0x000002da   0x00000002   PAD
-    0x000002dc   0x000002dc   0x0000000c   Code   RO           15    .text.TIMER2_IRQHandler  irq_timer.o
-    0x000002e8   0x000002e8   0x0000000a   Code   RO            2    .text.main          main.o
+    0x00000280   0x00000280   0x00000062   Code   RO           63    .text.BUTTON_init   lib_button.o
+    0x000002e2   0x000002e2   0x00000002   PAD
+    0x000002e4   0x000002e4   0x0000000e   Code   RO           11    .text.TIMER0_IRQHandler  irq_timer.o
     0x000002f2   0x000002f2   0x0000000a   PAD
-    0x000002fc   0x000002fc   0x00000004   Code   RO          267    .ARM.__at_0x02FC    startup_lpc17xx.o
-    0x00000300   0x00000300   0x00000074   Code   RO          106    .text.RIT_IRQHandler  irq_rit.o
-    0x00000374   0x00000374   0x0000001c   Code   RO           17    .text.TIMER3_IRQHandler  irq_timer.o
-    0x00000390   0x00000390   0x00000086   Code   RO          247    MYCODE              my_code.o
-    0x00000416   0x00000416   0x00000002   PAD
-    0x00000418   0x00000418   0x00000020   Data   RO          510    Region$$Table       anon$$obj.o
+    0x000002fc   0x000002fc   0x00000004   Code   RO          269    .ARM.__at_0x02FC    startup_lpc17xx.o
+    0x00000300   0x00000300   0x00000034   Code   RO           48    .text.EINT0_IRQHandler  irq_button.o
+    0x00000334   0x00000334   0x00000020   Code   RO           50    .text.EINT1_IRQHandler  irq_button.o
+    0x00000354   0x00000354   0x00000022   Code   RO           52    .text.EINT2_IRQHandler  irq_button.o
+    0x00000376   0x00000376   0x00000002   PAD
+    0x00000378   0x00000378   0x00000074   Code   RO          108    .text.RIT_IRQHandler  irq_rit.o
+    0x000003ec   0x000003ec   0x00000184   Code   RO          280    .text.SystemInit    system_lpc17xx.o
+    0x00000570   0x00000570   0x0000000e   Code   RO           13    .text.TIMER1_IRQHandler  irq_timer.o
+    0x0000057e   0x0000057e   0x00000002   PAD
+    0x00000580   0x00000580   0x0000000c   Code   RO           15    .text.TIMER2_IRQHandler  irq_timer.o
+    0x0000058c   0x0000058c   0x0000001c   Code   RO           17    .text.TIMER3_IRQHandler  irq_timer.o
+    0x000005a8   0x000005a8   0x00000030   Code   RO           65    .text.__NVIC_EnableIRQ  lib_button.o
+    0x000005d8   0x000005d8   0x00000014   Code   RO            2    .text.main          main.o
+    0x000005ec   0x000005ec   0x00000086   Code   RO          249    MYCODE              my_code.o
+    0x00000672   0x00000672   0x00000002   PAD
+    0x00000674   0x00000674   0x00000020   Data   RO          512    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Exec base: 0x10000000, Load base: 0x00000438, Size: 0x00000008, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Exec base: 0x10000000, Load base: 0x00000694, Size: 0x00000008, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x10000000   0x00000438   0x00000005   Data   RW          268    MYCODE              startup_lpc17xx.o
+    0x10000000   0x00000694   0x00000005   Data   RW          270    MYCODE              startup_lpc17xx.o
 
 
-    Execution Region ER_ZI (Exec base: 0x10000008, Load base: 0x00000440, Size: 0x00000468, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Exec base: 0x10000008, Load base: 0x0000069c, Size: 0x00000498, Max: 0xffffffff, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x10000008        -       0x00000060   Zero   RW          375    .bss                c_w.l(libspace.o)
-    0x10000068        -       0x00000002   Zero   RW          133    .bss.AD_current     irq_adc.o
-    0x1000006a   0x00000440   0x00000002   PAD
-    0x1000006c        -       0x00000004   Zero   RW           40    .bss.tick           lib_timer.o
-    0x10000070        -       0x00000000   Zero   RW          265    HEAP                startup_lpc17xx.o
-    0x10000070        -       0x00000400   Zero   RW          264    STACK               startup_lpc17xx.o
+    0x10000008        -       0x00000060   Zero   RW          377    .bss                c_w.l(libspace.o)
+    0x10000068        -       0x00000002   Zero   RW          135    .bss.AD_current     irq_adc.o
+    0x1000006a   0x0000069c   0x00000002   PAD
+    0x1000006c        -       0x00000028   Zero   RW           55    .bss.arr            irq_button.o
+    0x10000094        -       0x00000004   Zero   RW           54    .bss.k              irq_button.o
+    0x10000098        -       0x00000004   Zero   RW           40    .bss.tick           lib_timer.o
+    0x1000009c   0x0000069c   0x00000004   PAD
+    0x100000a0        -       0x00000000   Zero   RW          267    HEAP                startup_lpc17xx.o
+    0x100000a0        -       0x00000400   Zero   RW          266    STACK               startup_lpc17xx.o
 
 
 ==============================================================================
@@ -950,18 +966,20 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
         26          0          0          0          2       1027   irq_adc.o
-        54          0          0          0          0       1780   irq_button.o
+       118          0          0          0         44       1961   irq_button.o
        116          0          0          0          0       2056   irq_rit.o
         68          0          0          0          0       1337   irq_timer.o
+       146          0          0          0          0       4912   lib_button.o
          0          0          0          0          4       3721   lib_timer.o
-        10          0          0          0          0        347   main.o
+        20          0          0          0          0        363   main.o
        134          0          0          0          0        412   my_code.o
         88         24        204          5       1024       1012   startup_lpc17xx.o
+       388          0          0          0          0       2293   system_lpc17xx.o
 
     ----------------------------------------------------------------------
-       520         24        236          8       1032      11692   Object Totals
+      1124         24        236          8       1080      19094   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        24          0          0          3          2          0   (incl. Padding)
+        20          0          0          3          6          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -1008,15 +1026,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-       844         40        236          8       1128      12104   Grand Totals
-       844         40        236          8       1128      12104   ELF Image Totals
-       844         40        236          8          0          0   ROM Totals
+      1448         40        236          8       1176      19466   Grand Totals
+      1448         40        236          8       1176      19466   ELF Image Totals
+      1448         40        236          8          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                 1080 (   1.05kB)
-    Total RW  Size (RW Data + ZI Data)              1136 (   1.11kB)
-    Total ROM Size (Code + RO Data + RW Data)       1088 (   1.06kB)
+    Total RO  Size (Code + RO Data)                 1684 (   1.64kB)
+    Total RW  Size (RW Data + ZI Data)              1184 (   1.16kB)
+    Total ROM Size (Code + RO Data + RW Data)       1692 (   1.65kB)
 
 ==============================================================================
 

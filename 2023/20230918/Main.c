@@ -35,7 +35,7 @@
 //disable_timer(0); masalan agar ba timer dashtim kar mikardim}
 
 int main(){
-	//SystemInit();
+	SystemInit();
 
 	//DAC
 		//DAC_init();
@@ -52,7 +52,7 @@ int main(){
 		//delay_ms(50);
 	
 	//Button
-		//BUTTON_init();
+		BUTTON_init();
 	
 	//LED
 		//LED_init();
