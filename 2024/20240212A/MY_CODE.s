@@ -7,8 +7,8 @@ CUR		   RN  4
 NEI		   RN  5
 J		   RN  6
 N		   RN  7
-;		   RN  8
-;		   RN  10
+TMP		   RN  8
+CHANGED		   RN  10
 ;		   RN  11
 		   
 		   
@@ -18,12 +18,14 @@ N		   RN  7
 shortestPath   PROC
 	           EXPORT shortestPath
 			   PUSH{R4-R8,R10-R11,LR}
+			   LDR CHANGED,=0
 			   
-			   LDR I,=0
+FOR			   MOV CHANGED,#0
+               LDR I,=0
 			   MUL N,ROW,COL
 			   ADD I,COL
 CHECK_CELL	   LDRB CUR,[MAZE,I]
-			   CMP CUR,' '
+			   CMP CUR,#' '
 			   BNE NEXT_CELL
 			   
 			   ;TOP
@@ -33,8 +35,9 @@ CHECK_CELL	   LDRB CUR,[MAZE,I]
 			   BLT RIGHT
 			   CMP NEI,#122
 			   BGT RIGHT
-			   MOV NEI,#'N'
-			   STRB NEI,[MAZE,J]
+			   MOV TMP,#'N'
+			   STRB TMP,[MAZE,I]
+			   MOV CHANGED,#1
 			   B RIGHT
 			   
 RIGHT          ADD J,I,#1
@@ -43,8 +46,8 @@ RIGHT          ADD J,I,#1
 			   BLT BOTTOM
 			   CMP NEI,#122
 			   BGT BOTTOM
-			   MOV NEI,#'E'
-			   STRB NEI,[MAZE,J]
+			   MOV TMP,#'E'
+			   STRB TMP,[MAZE,I]
 			   B BOTTOM
 		   
 BOTTOM		   ADD J,I,COL
@@ -53,8 +56,8 @@ BOTTOM		   ADD J,I,COL
 			   BLT LEFT
 			   CMP NEI,#122
 			   BGT LEFT
-			   MOV NEI,#'S'
-			   STRB NEI,[MAZE,J]
+			   MOV TMP,#'S'
+			   STRB TMP,[MAZE,I]
 			   B LEFT
 			   
 LEFT           SUB J,I,#1
@@ -63,8 +66,8 @@ LEFT           SUB J,I,#1
 			   BLT NEXT_CELL
 			   CMP NEI,#122
 			   BGT NEXT_CELL
-			   MOV NEI,#'W'
-			   STRB NEI,[MAZE,J]	
+			   MOV TMP,#'W'
+			   STRB TMP,[MAZE,I]	
 		   
 		   
 		   
@@ -78,18 +81,23 @@ NEXT_CELL      ADD I,#1
 		       LDR I,=0
 			   ADD I,COL
 FOR_UPPER      LDRB CUR,[MAZE,I]
-			   CMP NEI,#97
+               CMP CUR,#'X'
+			   BEQ NEXT
+			   CMP CUR,#65
 			   BLT NEXT
-			   CMP NEI,#122
+			   CMP CUR,#90
 			   BGT NEXT
-			   SUB CUR,#32
+			   ADD CUR,#32
 			   STRB CUR,[MAZE,I]
+			   MOV CHANGED,#1
 			   
 NEXT           	ADD I,#1
                 CMP I,N 
                 BLT FOR_UPPER
+				CMP CHANGED,#1
+				BEQ FOR
 				
-		   
+FINISH		   
 	;	   MOV R0,RESULT
 		   
 		     POP{R4-R8,R10-R11,PC}
