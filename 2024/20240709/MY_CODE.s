@@ -1,23 +1,23 @@
  
-           RN  0
-		   RN  1
-		   RN  2
-		   RN  3
-		   RN  4
-		   RN  5
-		   RN  6
-		   RN  7
-		   RN  8
-		   RN  10
-		   RN  11
+MAZE       RN  0
+ROW		   RN  1
+COL		   RN  2
+INDEX	   RN  3
+;		   RN  4
+;		   RN  5
+;		   RN  6
+;		   RN  7
+;		   RN  8
+;		   RN  10
+;		   RN  11
 		   
 		   
 		   
 		   AREA MYCODE,CODE,READONLY
 			   
-NAME           PROC
-	           EXPORT NAME
-			   PUSH{R4-R8,R10-R11,LR}
+depthFirstSearch           PROC
+	                       EXPORT depthFirstSearch
+			               PUSH{R4-R8,R10-R11,LR}
 		   
 		   
 		   
@@ -27,7 +27,7 @@ NAME           PROC
 		   
 		   
 		   
-		   MOV R0,RESULT
+		;   MOV R0,RESULT
 		   
 		     POP{R4-R8,R10-R11,PC}
 			 ENDP

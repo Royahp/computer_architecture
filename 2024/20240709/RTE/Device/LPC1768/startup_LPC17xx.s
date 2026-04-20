@@ -118,7 +118,24 @@ SYScurrentValueReg		EQU	0xE000E018
 CRP_Key         DCD     0xFFFFFFFF
                 ENDIF
 
+NUM_ROW EQU 6
+NUM_COL EQU 5
+START_MATRIX EQU 7
+; 11111111 = 0xFF (Border)
+; 00000001 = 0x01 (Entrance/Visited)
 
+				AREA initialMap, DATA, READONLY
+maze			DCB     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF  ; Row 0 (Border)
+                DCB     0xFFFFFFFF, 0x00000000, 0x00000001, 0x00000000, 0xFFFFFFFF  ; Row 1 (Index 7 is entrance)
+                DCB     0xFFFFFFFF, 0x00000000, 0x00000000, 0x00000000, 0xFFFFFFFF  ; Row 2
+                DCB     0xFFFFFFFF, 0x00000000, 0x00000000, 0x00000000, 0xFFFFFFFF  ; Row 3
+                DCB     0xFFFFFFFF, 0x00000000, 0x00000000, 0x00000000, 0xFFFFFFFF  ; Row 4
+                DCB     0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF  ; Row 5 (Border)
+				
+
+
+ 				AREA currentMap, DATA, READWRITE
+maze_filled		SPACE NUM_ROW * NUM_COL
 
                 AREA    |.text|, CODE, READONLY
 
@@ -127,10 +144,25 @@ CRP_Key         DCD     0xFFFFFFFF
 
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
-				IMPORT NAME
-                IMPORT  __main
-                LDR     R0, =__main
-                BX      R0
+;                IMPORT  __main
+;                LDR     R0, =__main
+;                BX      R0
+				
+				IMPORT depthFirstSearch
+				LDR r0, =maze
+				LDR r1, =maze_filled
+				MOV r2, #NUM_ROW * NUM_COL
+loopCopyData	LDRB r3, [r0], #1
+				STRB r3, [r1], #1
+				SUBS r2, r2, #1
+				BNE loopCopyData				
+				
+				LDR R0,=maze_filled
+				MOV R1, #NUM_ROW
+				MOV R2, #NUM_COL
+				MOV R3, #START_MATRIX
+				BL depthFirstSearch
+			
 				;SYSTICK
 ;				LDR r0, =SYScontrolAndStatusReg
 ;				MOV r1, #0
