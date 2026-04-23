@@ -1,35 +1,57 @@
  
-           RN  0
-		   RN  1
-		   RN  2
-		   RN  3
-		   RN  4
-		   RN  5
-		   RN  6
-		   RN  7
-		   RN  8
-		   RN  10
-		   RN  11
+Y          RN  0
+N		   RN  1
+T0		   RN  2
+TMP		   RN  3
+T		   RN  4
+Y2		   RN  5
+PREV	   RN  6
+I		   RN  7
+I2		   RN  8
+SAD	       RN  9
+TMP2		   RN  10
+SUM	   RN  11
 		   
 		   
 		   
 		   AREA MYCODE,CODE,READONLY
 			   
-NAME           PROC
-	           EXPORT NAME
-			   PUSH{R4-R8,R10-R11,LR}
+Maclaurin           PROC
+	                EXPORT Maclaurin
+			        PUSH{R4-R9,R10-R11,LR}
+					LDR TMP,=10
+					MUL T0,Y,TMP
+					LDR I,=1
+					LDR SAD,=100
+					MOV SUM,T0
+					MOV PREV,T0
+					MUL Y2,Y,Y
+					
+FOR					CMP I,N
+                    BGT FINISH
+                    NEG PREV,PREV
+					MUL TMP,PREV,Y2
+					LDR TMP2,=2
+					MUL I2,TMP2,I
+					ADD TMP2,I2,#1
+					MUL TMP2,I2
+					MUL TMP2,SAD
+					SDIV TMP,TMP2
+					ADD SUM,TMP
+					MOV PREV,TMP
+					ADD I,#1
+					B FOR
+					
+					
+					
+					
+					
+					
+			
 		   
+FINISH 		   MOV R0,SUM
 		   
-		   
-		   
-		   
-		   
-		   
-		   
-		   
-		   MOV R0,RESULT
-		   
-		     POP{R4-R8,R10-R11,PC}
+		     POP{R4-R9,R10-R11,PC}
 			 ENDP
 			 END 
 				 

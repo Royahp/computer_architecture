@@ -27,6 +27,8 @@ void EINT0_IRQHandler (void)
 //	last_tick0 = tick;
 //	state0=1;
 ////  write code from here with or without debouncing
+		init_timer_SRI(0,1263,0b011);			//stop reset interrupt
+		enable_timer(0);
 	
 	LPC_SC->EXTINT &= (1 << 0);     /* clear pending interrupt         */
 }
