@@ -10,9 +10,32 @@
 #include "LPC17xx.h"
 #include "../Main.h"
 extern uint32_t tick;
+#define row 9
+#define col 8
+char maze[row][col] = {"********",
+"*S *S*",
+"* **** *",
+"* *",
+"** * ***",
+"* * *",
+"** * ***",
+"* * *",
+"********"};
+extern int deadEndFilling (int r,int c,char* matrix);
 
 void TIMER0_IRQHandler (void)
 {
+	int i,j=0;
+	int s,k=0;
+	int result=deadEndFilling(9,8,maze);
+	for(i=0;i<row;i++){
+	    for(j=0;j<col;j++){
+					if(maze[i][j]=='S'){
+					s=i;
+					k=j;
+					break;}
+	}}
+	
   LPC_TIM0->IR |= 1;			/* clear interrupt flag */
   return;
 }
