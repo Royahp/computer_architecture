@@ -18,7 +18,7 @@ Q		   RN  10
 nextElementLCG         PROC
 					   EXPORT nextElementLCG
 					   PUSH{R4-R8,R10-R11,LR}
-					   ADD PNTR,SP,#32
+    				   ADD PNTR,SP,#32
 					   LDR M,[PNTR]
 					   LDR I,=0
 					   

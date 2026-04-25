@@ -127,18 +127,18 @@ CRP_Key         DCD     0xFFFFFFFF
 
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
-				IMPORT nextElementLCG
-				LDR R0,=1
-				LDR R1,=131
-				LDR R2,=7
-				LDR R3,=10
-				LDR R4,=255
-								 
-				PUSH{R4}
-				BL nextElementLCG	
-;                IMPORT  __main
-;                LDR     R0, =__main
-;                BX      R0
+				;IMPORT nextElementLCG
+;				LDR R0,=1
+;				LDR R1,=131
+;				LDR R2,=7
+;				LDR R3,=10
+;				LDR R4,=255
+;								 
+;				PUSH{R4}
+;				BL nextElementLCG	
+                IMPORT  __main
+                LDR     R0, =__main
+                BX      R0
 				;SYSTICK
 ;				LDR r0, =SYScontrolAndStatusReg
 ;				MOV r1, #0

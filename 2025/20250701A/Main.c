@@ -35,15 +35,15 @@
 //disable_timer(0); masalan agar ba timer dashtim kar mikardim}
 
 int main(){
-	//SystemInit();
+	SystemInit();
 
 	//DAC
 		//DAC_init();
 		//DAC_write(500);
 	
 	//Timer
-		//init_timer_SRI(0,0xFF,0b000);			//stop reset interrupt
-		//enable_timer(0);
+		init_timer_SRI(0,7500,0b011);			//stop reset interrupt
+		enable_timer(0);
 		//uint32_t timer_value = read_timer(0);
 	
 	//Delay Debouncing 2taye aval 

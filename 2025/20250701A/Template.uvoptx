@@ -142,18 +142,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>48</LineNumber>
+          <LineNumber>18</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>930</Address>
+          <Address>1292</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\MY_CODE.s</Filename>
+          <Filename>.\Timer\IRQ_timer.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Template\MY_CODE.s\48</Expression>
+          <Expression>\\Template\Timer/IRQ_timer.c\18</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -161,6 +161,21 @@
           <count>0</count>
           <WinNumber>1</WinNumber>
           <ItemText>test</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>result</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>i</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>x</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -257,7 +272,7 @@
 
   <Group>
     <GroupName>Timer</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
