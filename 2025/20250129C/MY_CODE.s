@@ -1,33 +1,55 @@
  
-           RN  0
-		   RN  1
-		   RN  2
-		   RN  3
-		   RN  4
-		   RN  5
-		   RN  6
-		   RN  7
-		   RN  8
-		   RN  10
-		   RN  11
+A          RN  0
+AT		   RN  1
+I		   RN  2
+J		   RN  3
+TMP_A	   RN  4
+K		   RN  5
+TMP_B	   RN  6
+RES		   RN  7
+INDEX	   RN  8
+SEVEN	   RN  10
+;		   RN  11
 		   
 		   
 		   
 		   AREA MYCODE,CODE,READONLY
 			   
-NAME           PROC
-	           EXPORT NAME
+transposition  PROC
+	           EXPORT transposition
 			   PUSH{R4-R8,R10-R11,LR}
+			   
+			   ;LDR RES,=0
 		   
-		   
-		   
-		   
-		   
-		   
-		   
-		   
-		   
-		   MOV R0,RESULT
+		       LDR I,=0
+			   LDR J,=7
+			   LDR SEVEN,=7
+			   LDR INDEX,=0
+			  
+FOR_A		   LDRB TMP_A,[A,I]
+			   
+			   
+			   
+			   LSR TMP_B,TMP_A,J
+			   AND TMP_B,#1
+			   SUB K,SEVEN,I
+			   LSL TMP_B,TMP_B,K
+			   ORR RES,TMP_B
+			   ADD I,#1
+			   CMP I,#8
+			   BLT FOR_A
+			   STRB RES,[AT,INDEX]
+			   
+			   ADD INDEX,#1
+			   MOV RES,#0
+			   MOV I,#0
+			   SUB J,#1
+			   CMP J,#8
+			   BLT FOR_A
+			   
+			   
+			   
+			   
 		   
 		     POP{R4-R8,R10-R11,PC}
 			 ENDP

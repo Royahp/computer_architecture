@@ -118,16 +118,23 @@ SYScurrentValueReg		EQU	0xE000E018
 CRP_Key         DCD     0xFFFFFFFF
                 ENDIF
 
-
-
-                AREA    |.text|, CODE, READONLY
+				AREA    myData, DATA, READONLY
+matrix DCB 0xF8, 0x7C, 0x3E, 0x1F, 0x8F, 0xC7, 0xE3, 0xF1
+                
+				
+				AREA    myRES, DATA, READWRITE
+AT              SPACE 8				
+				AREA    |.text|, CODE, READONLY
 
 
 ; Reset Handler
 
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
-				IMPORT NAME
+				IMPORT transposition
+;				LDR R0,=matrix
+;				LDR R1,=AT
+;				BL transposition
                 IMPORT  __main
                 LDR     R0, =__main
                 BX      R0

@@ -2,6 +2,13 @@
 #include "LPC17xx.h"
 #define debounce_time 50
 extern uint32_t tick;
+char a[8]={};
+char b[8]={};
+int i =0;
+int j=0;
+
+	
+
 //key0
 //uint32_t last_tick0 = 0;
 //int state0 = 1;
@@ -27,6 +34,11 @@ void EINT0_IRQHandler (void)
 //	last_tick0 = tick;
 //	state0=1;
 ////  write code from here with or without debouncing
+
+		
+		
+	
+	
 	
 	LPC_SC->EXTINT &= (1 << 0);     /* clear pending interrupt         */
 }
@@ -47,6 +59,12 @@ void EINT1_IRQHandler (void)
 //	}
 //	last_tick1 = tick;
 ////  write code from here with or without debouncing
+		uint32_t timer_value = read_timer(2);
+	
+	if (i<8){
+		a[i]=timer_value;
+		i++;
+	}
 	LPC_SC->EXTINT &= (1 << 1);     /* clear pending interrupt         */
 }
 
@@ -65,6 +83,12 @@ void EINT2_IRQHandler (void)
 //	}
 //	last_tick2 = tick;
 ////  write code from here with or without debouncing
+		uint32_t timer_value = read_timer(2);
+	
+	if (j<8){
+		b[j]=timer_value;
+		j++;
+	}
   LPC_SC->EXTINT &= (1 << 2);     /* clear pending interrupt         */    
 }
 
