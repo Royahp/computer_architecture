@@ -128,7 +128,7 @@ CRP_Key         DCD     0xFFFFFFFF
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
 				IMPORT isSociable
-			    LDR R0,=28
+			    LDR R0,=220
 					
 				BL isSociable
 ;                IMPORT  __main
