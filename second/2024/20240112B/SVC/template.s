@@ -1,26 +1,9 @@
-;/**************************************************************************//**
-; * @file     startup_LPC17xx.s
-; * @brief    CMSIS Cortex-M3 Core Device Startup File for
-; *           NXP LPC17xx Device Series
-; * @version  V1.10
-; * @date     06. April 2011
-; *
-; * @note
-; * Copyright (C) 2009-2011 ARM Limited. All rights reserved.
-; *
-; * @par
-; * ARM Limited (ARM) is supplying this software for use with Cortex-M
-; * processor based microcontrollers.  This file can be freely distributed
-; * within development tools that are supporting such ARM based processors.
-; *
-; * @par
-; * THIS SOFTWARE IS PROVIDED "AS IS".  NO WARRANTIES, WHETHER EXPRESS, IMPLIED
-; * OR STATUTORY, INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
-; * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE APPLY TO THIS SOFTWARE.
-; * ARM SHALL NOT, IN ANY CIRCUMSTANCES, BE LIABLE FOR SPECIAL, INCIDENTAL, OR
-; * CONSEQUENTIAL DAMAGES, FOR ANY REASON WHATSOEVER.
-; *
-; ******************************************************************************/
+;            Computer Architectures - 02LSEOV 02LSEOQ            ;
+; author: 		Paolo BERNARDI - Politecnico di Torino           ;
+; creation: 	11 November 2018								 ;
+; last update:  1 Dicember 2020								 ;
+; functionalities:												 ;
+;		nothing but bringing to the reset handler				 ;
 
 ; *------- <<< Use Configuration Wizard in Context Menu >>> ------------------
 
@@ -28,18 +11,21 @@
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Stack_Size      EQU     0x00000400
+Stack_Size      EQU     0x00000200
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
-Stack_Mem       SPACE   Stack_Size
-__initial_sp
+				SPACE   Stack_Size/2
+Stack_Mem       SPACE   Stack_Size/2
+__initial_sp		
+
+
 
 
 ; <h> Heap Configuration
 ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Heap_Size       EQU     0x00000000
+Heap_Size       EQU     0x00000200
 
                 AREA    HEAP, NOINIT, READWRITE, ALIGN=3
 __heap_base
@@ -55,7 +41,7 @@ __heap_limit
 
                 AREA    RESET, DATA, READONLY
                 EXPORT  __Vectors
-
+												; 0x10000200
 __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     Reset_Handler             ; Reset Handler
                 DCD     NMI_Handler               ; NMI Handler
@@ -110,73 +96,28 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     USBActivity_IRQHandler    ; 49: USB Activity interrupt to wakeup
                 DCD     CANActivity_IRQHandler    ; 50: CAN Activity interrupt to wakeup
 
-SYScontrolAndStatusReg	EQU	0xE000E010
-SYSreloadValueReg		EQU	0xE000E014
-SYScurrentValueReg		EQU	0xE000E018
+
                 IF      :LNOT::DEF:NO_CRP
                 AREA    |.ARM.__at_0x02FC|, CODE, READONLY
 CRP_Key         DCD     0xFFFFFFFF
                 ENDIF
 
-NUM_ROW EQU 9
-NUM_COL EQU 9
-
-				AREA initialMap, DATA, READONLY
-maze			DCB "*n*******"
-				DCB "*   * * *"
-				DCB "* ***** *"
-				DCB "* * *   *"
-				DCB "* * *** *"
-				DCB "*   *   *"
-				DCB "***** * *"
-				DCB "*     * *"
-				DCB "*******s*"					
-
-				AREA currentMap, DATA, READWRITE
-maze_directions	SPACE NUM_ROW * NUM_COL
-
 
                 AREA    |.text|, CODE, READONLY
-
 
 ; Reset Handler
 
 Reset_Handler   PROC
-                EXPORT  Reset_Handler             [WEAK]
-;                IMPORT  mazeSolver
-;				LDR r0, =maze
-;				LDR r1, =maze_directions
-;				MOV r2, #NUM_ROW * NUM_COL
-;loopCopyData	LDRB r3, [r0], #1
-;				STRB r3, [r1], #1
-;				SUBS r2, r2, #1
-;				BNE loopCopyData				
-;				
-;				MOV r0, #NUM_ROW
-;				MOV r1, #NUM_COL
-;				LDR r2, =maze_directions
-;				BL mazeSolver
-                IMPORT  __main
-                LDR     R0, =__main
-                BX      R0
-				;SYSTICK
-;				LDR r0, =SYScontrolAndStatusReg
-;				MOV r1, #0
-;				STR r1, [r0]
-;				; step 1
-;				LDR r0, =SYSreloadValueReg
-;				LDR r1, =1023
-;				; example
-;				STR r1, [r0]
-;				; step 2
-;				LDR r0, =SYScurrentValueReg
-;				STR r1, [r0]
-;				; step 3
-;				LDR r0, =SYScontrolAndStatusReg
-;				MOV r1, #7
-;				STR r1, [r0]
-;				; step 4
-stop			B	stop
+                EXPORT  Reset_Handler             [WEAK]                                            
+				IMPORT __main
+				
+				;Switch to user mode
+
+				LDR 	R0, =__main
+				LDR 	R1, =Heap_Mem
+				BX 		R0
+				
+				B      	.
                 ENDP
 
 
@@ -208,15 +149,35 @@ UsageFault_Handler\
                 ENDP
 SVC_Handler     PROC
                 EXPORT  SVC_Handler               [WEAK]
-				;Test bit 2 of EXC_RETURN in LR
-				TST LR, #0x4
+				
+				STMFD SP!, {R0-R12, LR}
+				
+				;check the less significant byte in the LR to understand which was the SP used before the SVC
+				
+				;LR->0100 only bit 2 is to check 
+				;D=  1101 -> PSP
+				;9=  1001 -> MSP
+				;1=  0001 -> MSP
+				
+				TST LR, #4
+				
 				ITE EQ
-				MRSEQ r0, MSP
-				MRSNE r0, PSP
-				;get stacked PC from stack
-				LDR r1, [r0, #24] ;see slide 10
-				;get immediate from instruction
-				LDRB r0, [r1, #-2]
+				MRSEQ R1, MSP
+				MRSNE R1, PSP
+				
+				;Read program counter from the stack
+				LDREQ R0, [R1, #20*4]
+				LDRNE R0, [R1, #6*4]
+			
+				
+				;Read SVC number
+				LDRB R0, [R0,#-2]	;0x000000D8
+				
+				; your code here
+				
+				LDMFD SP!, {R0-R12, LR}
+				BX LR
+				
                 ENDP
 DebugMon_Handler\
                 PROC
@@ -340,3 +301,4 @@ __user_initial_stackheap
 
 
                 END
+

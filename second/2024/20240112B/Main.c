@@ -35,7 +35,7 @@
 //disable_timer(0); masalan agar ba timer dashtim kar mikardim}
 
 int main(){
-SystemInit();
+	//SystemInit();
 
 	//DAC
 		//DAC_init();
@@ -43,7 +43,7 @@ SystemInit();
 	
 	//Timer
 		//init_timer_SRI(0,0xFF,0b000);			//stop reset interrupt
-		enable_timer(0);
+		//enable_timer(0);
 		//uint32_t timer_value = read_timer(0);
 	
 	//Delay Debouncing 2taye aval 
@@ -52,7 +52,7 @@ SystemInit();
 		//delay_ms(50);
 	
 	//Button
-		BUTTON_init();
+		//BUTTON_init();
 	
 	//LED
 		//LED_init();

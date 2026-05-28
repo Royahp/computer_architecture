@@ -28,7 +28,7 @@
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
 ; </h>
 
-Stack_Size      EQU     0x00000400
+Stack_Size      EQU     0x00000200
 
                 AREA    STACK, NOINIT, READWRITE, ALIGN=3
 Stack_Mem       SPACE   Stack_Size
@@ -110,30 +110,11 @@ __Vectors       DCD     __initial_sp              ; Top of Stack
                 DCD     USBActivity_IRQHandler    ; 49: USB Activity interrupt to wakeup
                 DCD     CANActivity_IRQHandler    ; 50: CAN Activity interrupt to wakeup
 
-SYScontrolAndStatusReg	EQU	0xE000E010
-SYSreloadValueReg		EQU	0xE000E014
-SYScurrentValueReg		EQU	0xE000E018
+
                 IF      :LNOT::DEF:NO_CRP
                 AREA    |.ARM.__at_0x02FC|, CODE, READONLY
 CRP_Key         DCD     0xFFFFFFFF
                 ENDIF
-
-NUM_ROW EQU 9
-NUM_COL EQU 9
-
-				AREA initialMap, DATA, READONLY
-maze			DCB "*n*******"
-				DCB "*   * * *"
-				DCB "* ***** *"
-				DCB "* * *   *"
-				DCB "* * *** *"
-				DCB "*   *   *"
-				DCB "***** * *"
-				DCB "*     * *"
-				DCB "*******s*"					
-
-				AREA currentMap, DATA, READWRITE
-maze_directions	SPACE NUM_ROW * NUM_COL
 
 
                 AREA    |.text|, CODE, READONLY
@@ -143,40 +124,12 @@ maze_directions	SPACE NUM_ROW * NUM_COL
 
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
-;                IMPORT  mazeSolver
-;				LDR r0, =maze
-;				LDR r1, =maze_directions
-;				MOV r2, #NUM_ROW * NUM_COL
-;loopCopyData	LDRB r3, [r0], #1
-;				STRB r3, [r1], #1
-;				SUBS r2, r2, #1
-;				BNE loopCopyData				
-;				
-;				MOV r0, #NUM_ROW
-;				MOV r1, #NUM_COL
-;				LDR r2, =maze_directions
-;				BL mazeSolver
+                IMPORT  SystemInit
                 IMPORT  __main
+                LDR     R0, =SystemInit
+                BLX     R0
                 LDR     R0, =__main
                 BX      R0
-				;SYSTICK
-;				LDR r0, =SYScontrolAndStatusReg
-;				MOV r1, #0
-;				STR r1, [r0]
-;				; step 1
-;				LDR r0, =SYSreloadValueReg
-;				LDR r1, =1023
-;				; example
-;				STR r1, [r0]
-;				; step 2
-;				LDR r0, =SYScurrentValueReg
-;				STR r1, [r0]
-;				; step 3
-;				LDR r0, =SYScontrolAndStatusReg
-;				MOV r1, #7
-;				STR r1, [r0]
-;				; step 4
-stop			B	stop
                 ENDP
 
 
@@ -208,15 +161,7 @@ UsageFault_Handler\
                 ENDP
 SVC_Handler     PROC
                 EXPORT  SVC_Handler               [WEAK]
-				;Test bit 2 of EXC_RETURN in LR
-				TST LR, #0x4
-				ITE EQ
-				MRSEQ r0, MSP
-				MRSNE r0, PSP
-				;get stacked PC from stack
-				LDR r1, [r0, #24] ;see slide 10
-				;get immediate from instruction
-				LDRB r0, [r1, #-2]
+                B       .
                 ENDP
 DebugMon_Handler\
                 PROC

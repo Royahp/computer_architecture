@@ -118,22 +118,25 @@ SYScurrentValueReg		EQU	0xE000E018
 CRP_Key         DCD     0xFFFFFFFF
                 ENDIF
 
-NUM_ROW EQU 9
+
+
+
+NUM_ROW EQU 8
 NUM_COL EQU 9
 
 				AREA initialMap, DATA, READONLY
-maze			DCB "*n*******"
-				DCB "*   * * *"
-				DCB "* ***** *"
-				DCB "* * *   *"
-				DCB "* * *** *"
-				DCB "*   *   *"
-				DCB "***** * *"
-				DCB "*     * *"
-				DCB "*******s*"					
+maze			DCB "XXXXXXXXX"
+				DCB "X   X   X"
+				DCB "X XXXXX X"
+				DCB "X X     X"
+				DCB "X   X   X"
+				DCB "XXXXX X X"
+				DCB "X     X X"
+				DCB "XXXXXXXXX" 					
 
 				AREA currentMap, DATA, READWRITE
-maze_directions	SPACE NUM_ROW * NUM_COL
+maze_visited	SPACE NUM_ROW * NUM_COL
+cells_visited	SPACE 200
 
 
                 AREA    |.text|, CODE, READONLY
@@ -143,22 +146,24 @@ maze_directions	SPACE NUM_ROW * NUM_COL
 
 Reset_Handler   PROC
                 EXPORT  Reset_Handler             [WEAK]
-;                IMPORT  mazeSolver
-;				LDR r0, =maze
-;				LDR r1, =maze_directions
-;				MOV r2, #NUM_ROW * NUM_COL
-;loopCopyData	LDRB r3, [r0], #1
-;				STRB r3, [r1], #1
-;				SUBS r2, r2, #1
-;				BNE loopCopyData				
-;				
-;				MOV r0, #NUM_ROW
-;				MOV r1, #NUM_COL
-;				LDR r2, =maze_directions
-;				BL mazeSolver
-                IMPORT  __main
-                LDR     R0, =__main
-                BX      R0
+;                IMPORT  __main
+;                LDR     R0, =__main
+;                BX      R0
+				IMPORT exploreMaze
+					
+				LDR r0, =maze
+				LDR r1, =maze_visited
+				MOV r2, #NUM_ROW * NUM_COL
+loopCopyData	LDRB r3, [r0], #1
+				STRB r3, [r1], #1
+				SUBS r2, r2, #1
+				BNE loopCopyData				
+				
+				MOV r0, #NUM_ROW
+				MOV r1, #NUM_COL
+				LDR r2, =maze_visited
+				LDR r3, =cells_visited
+				BL exploreMaze
 				;SYSTICK
 ;				LDR r0, =SYScontrolAndStatusReg
 ;				MOV r1, #0
