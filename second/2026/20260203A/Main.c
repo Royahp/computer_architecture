@@ -1,7 +1,5 @@
 
 #include "Main.h"
-extern int HofstadterQ (char * arr,int dim);
-char v[1000]={};
 
 // Button pins: P2.10(INT0), P2.11(INT1), P2.12(INT2)
 // LED pins: P2.0, P2.1, P2.2, P2.3, P2.4, P2.5, P2.6, P2.7
@@ -37,24 +35,15 @@ char v[1000]={};
 //disable_timer(0); masalan agar ba timer dashtim kar mikardim}
 
 int main(){
-   SystemInit();
+	SystemInit();
 
 	//DAC
-	  int result =HofstadterQ(v,1000);
-		DAC_init();
-		DAC_write(result);
+		//DAC_init();
+		//DAC_write(500);
 	
-	//Timer A
-		init_timer_SRI(0,0xFF,0b000);			//stop reset interrupt
+	//Timer
+		init_timer_SRI(0,0xFF,0b011);			//stop reset interrupt
 		enable_timer(0);
-		//uint32_t timer_value = read_timer(0);
-	//Timer B
-		//init_timer_SRI(1,0xFF,0b000);			//stop reset interrupt
-		//enable_timer(1);
-		//uint32_t timer_value = read_timer(0);
-	//Timer C
-		//init_timer_SRI(2,0xFF,0b000);			//stop reset interrupt
-		//enable_timer(2);
 		//uint32_t timer_value = read_timer(0);
 	
 	//Delay Debouncing 2taye aval 
@@ -63,10 +52,10 @@ int main(){
 		//delay_ms(50);
 	
 	//Button
-		//BUTTON_init();
+		BUTTON_init();
 	
 	//LED
-		//LED_init();
+		LED_init();
 		//LED_On(0);
 	  //LED_Off(0);
 		//LED_Out(255);
@@ -79,7 +68,7 @@ int main(){
 		//enable_RIT();
 		
 	//ADC
-		//ADC_init();
+		ADC_init();
 		//ADC_start_conversion();
 	
 	//GLCD

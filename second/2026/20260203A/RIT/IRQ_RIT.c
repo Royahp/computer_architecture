@@ -1,44 +1,38 @@
 /*********************************************************************************************************
 **--------------File Info---------------------------------------------------------------------------------
-** File name:           IRQ_timer.c
+** File name:           IRQ_RIT.c
 ** Last modified Date:  2014-09-25
 ** Last Version:        V1.00
 ** Descriptions:        functions to manage T0 and T1 interrupts
-** Correlated files:    timer.h
+** Correlated files:    RIT.h
 **--------------------------------------------------------------------------------------------------------
 *********************************************************************************************************/
 #include "LPC17xx.h"
+#include "RIT.h"
 #include "../Main.h"
-extern uint32_t tick;
-
-void TIMER0_IRQHandler (void)
+/******************************************************************************
+** Function name:		RIT_IRQHandler
+**
+** Descriptions:		REPETITIVE INTERRUPT TIMER handler
+**
+** parameters:			None
+** Returned value:		None
+**
+******************************************************************************/
+void RIT_IRQHandler (void)
+{			
+		if((LPC_GPIO1->FIOPIN & (1<<25)) == 0){			//sel
+		}	
+		if((LPC_GPIO1->FIOPIN & (1<<26)) == 0){			//down
+		}
+		if((LPC_GPIO1->FIOPIN & (1<<27)) == 0){			//left
+		}
+		if((LPC_GPIO1->FIOPIN & (1<<28)) == 0){			//right
+		}
+		if((LPC_GPIO1->FIOPIN & (1<<29)) == 0){			//up
+		}
+  LPC_RIT->RICTRL |= 0x1;	/* clear interrupt flag */
 	
-{
-	//if (LPC_TIM1->TCR & 1){ //yani dar heyne kar ba timer 0 mibine ke timer 1 enable hast ya na
-//  LPC_TIM0->IR |= 1;			//yani agar timer 1 enable bud miad timer 0 ro terminate mikone
-//  return;}
-  LPC_TIM0->IR |= 1;			/* clear interrupt flag */
-  return;
-}
-
-
-void TIMER1_IRQHandler (void)
-{
-  LPC_TIM1->IR = 1;			/* clear interrupt flag */
-  return;
-}
-
-void TIMER2_IRQHandler (void)
-{
-  LPC_TIM2->IR = 1;			/* clear interrupt flag */
-  return;
-}
-
-void TIMER3_IRQHandler (void)
-{
-	tick++;
-  LPC_TIM3->IR = 1;			/* clear interrupt flag */
-  return;
 }
 
 /******************************************************************************

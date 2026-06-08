@@ -10,14 +10,22 @@
 #include "LPC17xx.h"
 #include "../Main.h"
 extern uint32_t tick;
+extern unsigned short AD_current;   
+int msb;
 
 void TIMER0_IRQHandler (void)
-	
 {
-	//if (LPC_TIM1->TCR & 1){ //yani dar heyne kar ba timer 0 mibine ke timer 1 enable hast ya na
+//if (LPC_TIM1->TCR & 1){ //yani dar heyne kar ba timer 0 mibine ke timer 1 enable hast ya na
 //  LPC_TIM0->IR |= 1;			//yani agar timer 1 enable bud miad timer 0 ro terminate mikone
 //  return;}
-  LPC_TIM0->IR |= 1;			/* clear interrupt flag */
+// if (LPC_TIM2->TCR & 1){ //yani dar heyne kar ba timer 0 mibine ke timer 2 enable hast ya na
+//  LPC_TIM0->IR |= 1;			/* clear interrupt flag */
+//  return;}
+	
+	msb= AD_current >> 4 ;
+	LED_Out (msb);
+ 
+	LPC_TIM0->IR |= 1;			/* clear interrupt flag */
   return;
 }
 
